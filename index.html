@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="Gentle, character-filled reminders to help your daily routines stick.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Nudge — a little care, on time</title>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Nudge home">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>nudge<span class="brand-period">.</span></span>
+      </a>
+      <button class="install-button" id="install-button" type="button" hidden>＋ Install app</button>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="live-dot"></span> YOUR DAILY DOSE OF CARE</span>
+        <h1 id="hero-title">Little reminders.<br>A lot of <span>heart.</span></h1>
+        <p>A friendly face and a gentle nudge, right when you need one.</p>
+        <button class="primary-button hero-create" id="create-button" type="button">
+          <span aria-hidden="true">＋</span> Make a reminder
+        </button>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="sun-shape"></div>
+        <div class="sparkle sparkle-one">✳</div>
+        <div class="sparkle sparkle-two">✦</div>
+        <div class="hero-bubble">you've<br>got this <span>♡</span></div>
+        <div class="hero-person" id="hero-person"></div>
+        <div class="ground-shape"></div>
+      </div>
+    </section>
+
+    <section class="reminders-section" aria-labelledby="reminders-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">MADE JUST FOR YOU</span>
+          <h2 id="reminders-heading">Your little routines</h2>
+        </div>
+        <span class="routine-count" id="routine-count">0 ACTIVE</span>
+      </div>
+      <div class="permission-banner" id="permission-banner" hidden>
+        <span class="permission-icon" aria-hidden="true">♡</span>
+        <div class="permission-copy">
+          <strong>Let us give you a little nudge</strong>
+          <span>Turn on browser notifications to see reminders while Nudge is open.</span>
+        </div>
+        <button class="secondary-button" id="permission-button" type="button">Enable</button>
+      </div>
+      <div class="permission-banner exact-alarm-banner" id="exact-alarm-banner" hidden>
+        <span class="permission-icon" aria-hidden="true">◷</span>
+        <div class="permission-copy">
+          <strong>Make your reminders more precise</strong>
+          <span>Allow Android to deliver alarms at their scheduled time.</span>
+        </div>
+        <button class="secondary-button" id="exact-alarm-button" type="button">Allow</button>
+      </div>
+      <div class="reminder-list" id="reminder-list"></div>
+      <div class="empty-state" id="empty-state">
+        <span class="empty-icon" aria-hidden="true">✿</span>
+        <h3>Here's to a fresh start.</h3>
+        <p>Your reminders will show up here. Let's make the first one together.</p>
+        <button class="secondary-button" id="empty-create-button" type="button">Create your first reminder <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="footer-note"><span aria-hidden="true">✳</span> DAILY, GENTLY, ON YOUR TERMS</p>
+    </section>
+  </main>
+
+  <dialog class="editor-dialog" id="editor-dialog" aria-labelledby="editor-title">
+    <form class="editor-form" id="editor-form">
+      <div class="dialog-top">
+        <button class="back-button" id="cancel-button" type="button"><span aria-hidden="true">←</span> Back</button>
+        <span class="eyebrow" id="dialog-eyebrow">A NEW ROUTINE</span>
+        <span class="dialog-spacer"></span>
+      </div>
+      <div class="dialog-title-block">
+        <h2 id="editor-title">What should we<br>nudge you about?</h2>
+        <p>Every little bit of care counts.</p>
+      </div>
+
+      <label class="field-label" for="reminder-title">YOUR REMINDER</label>
+      <input class="text-input" id="reminder-title" name="title" type="text" maxlength="60" placeholder="e.g. Drink some water" required>
+
+      <label class="field-label" for="reminder-note">A LITTLE MESSAGE FROM YOUR HELPER</label>
+      <textarea class="text-input note-input" id="reminder-note" name="note" maxlength="140" rows="2" placeholder="One sip at a time. You've got this!" required></textarea>
+
+      <span class="field-label">WHO'S STOPPING BY?</span>
+      <div class="character-picker" role="radiogroup" aria-label="Choose your reminder character">
+        <button class="character-option selected" type="button" data-avatar="girl" role="radio" aria-checked="true">
+          <span class="picker-portrait" data-picker="girl"></span><span>Girl</span><span class="radio-dot"></span>
+        </button>
+        <button class="character-option" type="button" data-avatar="boy" role="radio" aria-checked="false">
+          <span class="picker-portrait" data-picker="boy"></span><span>Boy</span><span class="radio-dot"></span>
+        </button>
+      </div>
+
+      <span class="field-label">WHEN SHOULD THEY VISIT?</span>
+      <div class="schedule-card">
+        <label class="time-row"><span>Start time</span><input class="time-input" id="start-time" name="start" type="time" value="09:00" required></label>
+        <label class="time-row"><span>Wrap-up time</span><input class="time-input" id="end-time" name="end" type="time" value="16:00" required></label>
+        <div class="interval-row">
+          <label for="interval-input"><span>Pop by every</span><small>Keep a little rhythm</small></label>
+          <div class="interval-control">
+            <button class="step-button" id="interval-minus" type="button" aria-label="Decrease reminder interval">−</button>
+            <span class="interval-value" id="interval-value">3 hr</span>
+            <button class="step-button" id="interval-plus" type="button" aria-label="Increase reminder interval">＋</button>
+          </div>
+        </div>
+        <input id="interval-input" name="interval" type="hidden" value="180">
+      </div>
+
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <button class="primary-button save-button" type="submit">Save my reminder <span aria-hidden="true">→</span></button>
+    </form>
+  </dialog>
+
+  <dialog class="arrival-dialog" id="arrival-dialog" aria-labelledby="arrival-title">
+    <div class="arrival-card">
+      <span class="arrival-eyebrow"><span class="live-dot"></span> A LITTLE NUDGE, RIGHT ON TIME</span>
+      <time class="arrival-time" id="arrival-time"></time>
+      <h2 id="arrival-title"></h2>
+      <div class="arrival-stage" id="arrival-stage"></div>
+      <p class="arrival-note" id="arrival-note"></p>
+      <button class="primary-button arrival-done" id="arrival-done" type="button">Got it, thank you <span aria-hidden="true">♡</span></button>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>

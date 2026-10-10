@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Nudge — a little care, on time",
+  "short_name": "Nudge",
+  "description": "A friendly face and a gentle nudge, right when you need one.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f5ef",
+  "theme_color": "#f6f5ef",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
